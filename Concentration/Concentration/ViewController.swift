@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     /// экзмемляр класса, во входном параметре которого число парных карт = всему числу кнопок/2; +1 для нечетного кол-ва карт в массиве
-   lazy var game = ConcentrationGame(numberOfPairedCards: (AllButtons.count + 1)/2)
+    lazy var game = ConcentrationGame(numberOfPairedCards: (AllButtons.count + 1)/2)
     /// счетчик переворотов
     var flipCount = 0{
         didSet{
@@ -42,13 +42,8 @@ class ViewController: UIViewController {
     }
     
     func reset() {
-        var newGameCards = [Card]()// с обычным game.cards крашится из-за индекса
         flipCount = 0
-        for index in game.cards.indices { // c newGameCards не появляются карты
-            game.cards[index].isFacedUp = false
-            game.cards[index].isMatched = false
-        }
-        newGameCards.removeAll()
+        game.reset()
     }
 
     var emojiArray = ["🐞", "🐸", "🐔", "⚽️", "🎾", "🎲", "🚀", "💸", "🔮", "🧸"]
@@ -60,9 +55,9 @@ class ViewController: UIViewController {
     func emojiMethod(card:Card) -> String {
         if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
             if emojiArray.count > 0 {           //условие непустоты массива эмодзи
-            let randomEmoji = Int(arc4random_uniform(UInt32(emojiArray.count)))   // рандом выбор эмодзи
-            emojiDictionary[card.ID] = emojiArray.remove(at: randomEmoji)
-        }
+                let randomEmoji = Int(arc4random_uniform(UInt32(emojiArray.count)))   // рандом выбор эмодзи
+                emojiDictionary[card.ID] = emojiArray.remove(at: randomEmoji)
+            }
         }
         return emojiDictionary[card.ID] ?? "?"
     }
