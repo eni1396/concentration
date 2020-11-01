@@ -48,11 +48,11 @@ class ConcentrationGame {
         
         var anyCardIndex = cards.count - 1 //тут вопрос
         
-        if anyCardIndex != 0 {
+        while anyCardIndex > 0 {
             var randomIndex = Int(arc4random_uniform(UInt32(anyCardIndex)))
             swap(&anyCardIndex, &randomIndex)
-        }
         anyCardIndex -= 1 // и тут вопрос. И по итогу они перемешиваются только при cmd + R
-        
+        }
 }
 }
+//Array
