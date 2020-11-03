@@ -12,23 +12,23 @@ class ViewController: UIViewController {
     /// экзмемляр класса, во входном параметре которого число парных карт = всему числу кнопок/2; +1 для нечетного кол-ва карт в массиве
     lazy var game = ConcentrationGame(numberOfPairedCards: (AllButtons.count + 1)/2)
     /// счетчик переворотов
-    var flipCount = 0{
-        didSet{
-            labelCounter.text = "Flips : \(flipCount)"
-        }
-    }
     @IBOutlet weak var labelCounter: UILabel!
-  
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    
     @IBOutlet var AllButtons: [UIButton]!
     
     @IBAction func newGame(_ sender: UIButton) {
         reset()
+        emojiDictionary.removeAll()
+        flipCard()
     }
     
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
-        if flipCount > 15 {      //по достижению 15 кликов игра начинается заново
+        game.flipCount += 1
+        if game.flipCount > 20 {      //по достижению 20 кликов игра начинается заново
             reset()
+            flipCard()
         }
         
         /// условие для получения номера карты, который будет получен при нажатии на кнопку по первому индексу из массива AllButtons
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     }
     
     func reset() {
-        flipCount = 0
+        game.flipCount = 0
         game.reset()
     }
 
@@ -76,8 +76,9 @@ class ViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // цвет либо красный, либо прозрачный
             }
         }
+        scoreLabel.text = "Score: \(game.score)"
+        labelCounter.text = "Flips : \(game.flipCount)"
     }
-
 }
 
 

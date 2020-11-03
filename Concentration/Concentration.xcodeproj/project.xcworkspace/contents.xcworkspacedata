@@ -2,18 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../Concentration/Base.lproj">
-   </FileRef>
-   <FileRef
-      location = "group:../Concentration/Card.swift">
-   </FileRef>
-   <FileRef
-      location = "group:../Concentration/ConcentrationGame.swift">
-   </FileRef>
-   <FileRef
-      location = "group:../Concentration/ViewController.swift">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>
