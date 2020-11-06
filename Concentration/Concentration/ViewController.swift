@@ -19,8 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet var AllButtons: [UIButton]!
     
     @IBAction func newGame(_ sender: UIButton) {
-        game.flipCount = 0
-        reset()
+        game.reset()
         flipCard()
         emojiDictionary.removeAll()
         
@@ -28,11 +27,7 @@ class ViewController: UIViewController {
     
     @IBAction func touchCard(_ sender: UIButton) {
         game.flipCount += 1
-        if game.flipCount > 30 {      //по достижению 20 кликов игра начинается заново
-            reset()
             flipCard()
-            game.score -= 2
-        }
         
         /// условие для получения номера карты, который будет получен при нажатии на кнопку по первому индексу из массива AllButtons
         if let cardNumber = AllButtons.firstIndex(of: sender) {
@@ -44,19 +39,15 @@ class ViewController: UIViewController {
         }
     }
     
-    func reset() {
-        game.flipCount = 0
-        game.reset()
-    }
 
     var emojiArray = ["🐞", "🐸", "🐔", "🐄", "🐝", "🦄", "🐜", "🦉", "🐢", "🐡"]
+    var anotherArray = [String]()  // копия массива, чтобы основной не опустошался
     var emojiDictionary = [Int:String]()
     
     /// метод по переносу эмодзи из массива с эмодзи в словарь для вызова по номеру
     /// - Parameter card: просто карта
     /// - Returns: добавляет эмодзи в словарь, убирая его из массива
     func emojiMethod(card:Card) -> String {
-        var anotherArray = emojiArray  // копия массива, чтобы основной не опустошался
         if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
             if anotherArray.count > 0 {           //условие непустоты массива эмодзи
                 let randomEmoji = Int(arc4random_uniform(UInt32(anotherArray.count)))   // рандом выбор эмодзи
@@ -69,7 +60,10 @@ class ViewController: UIViewController {
     
     /// переворачивание карты
     func flipCard() {
-        for index in AllButtons.indices {  // прохождение индекса по всем элементам массива AllButtons
+        if anotherArray.isEmpty {
+            anotherArray = emojiArray
+        }
+            for index in AllButtons.indices {  // прохождение индекса по всем элементам массива AllButtons
             let button = AllButtons[index]  // кнопке присваивается индекс из массива AllButtons
             let card = game.cards[index]  //карте присваивается индекс карты из класса ConcentrationGame
             if card.isFacedUp {  //карта повернута -да

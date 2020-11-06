@@ -38,11 +38,20 @@ class ConcentrationGame {
                 cards[index].isFacedUp = true
                 indexOfOnlyOneCard = index
             }
+        } else {
+            flipCount = 0
+            for index in cards.indices { //проходимся по индексам массива и переворачиваем карты и убираем соответствия
+                cards[index].isFacedUp = false
+                cards[index].isMatched = false
+            }
         }
+    
     }
     
     func reset() {
-        for index in cards.indices { //проходимся по индексам массива и переворачиваем карты и убираем соответствия
+        flipCount = 0
+        score = 0
+        for index in cards.indices {
             cards[index].isFacedUp = false
             cards[index].isMatched = false
         }
@@ -58,8 +67,6 @@ class ConcentrationGame {
             //          добавление в массив двух карт-экземпляров
             cards += [card,card]
         }
-        //        var randomCard = cards
-        //        randomCard.shuffle()
         cards.shuffle()
     }
 }
