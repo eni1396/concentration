@@ -19,16 +19,19 @@ class ViewController: UIViewController {
     @IBOutlet var AllButtons: [UIButton]!
     
     @IBAction func newGame(_ sender: UIButton) {
+        game.flipCount = 0
         reset()
-        emojiDictionary.removeAll()
         flipCard()
+        emojiDictionary.removeAll()
+        
     }
     
     @IBAction func touchCard(_ sender: UIButton) {
         game.flipCount += 1
-        if game.flipCount > 20 {      //по достижению 20 кликов игра начинается заново
+        if game.flipCount > 30 {      //по достижению 20 кликов игра начинается заново
             reset()
             flipCard()
+            game.score -= 2
         }
         
         /// условие для получения номера карты, который будет получен при нажатии на кнопку по первому индексу из массива AllButtons
@@ -46,17 +49,18 @@ class ViewController: UIViewController {
         game.reset()
     }
 
-    var emojiArray = ["🐞", "🐸", "🐔", "⚽️", "🎾", "🎲", "🚀", "💸", "🔮", "🧸"]
+    var emojiArray = ["🐞", "🐸", "🐔", "🐄", "🐝", "🦄", "🐜", "🦉", "🐢", "🐡"]
     var emojiDictionary = [Int:String]()
     
     /// метод по переносу эмодзи из массива с эмодзи в словарь для вызова по номеру
     /// - Parameter card: просто карта
     /// - Returns: добавляет эмодзи в словарь, убирая его из массива
     func emojiMethod(card:Card) -> String {
+        var anotherArray = emojiArray  // копия массива, чтобы основной не опустошался
         if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
-            if emojiArray.count > 0 {           //условие непустоты массива эмодзи
-                let randomEmoji = Int(arc4random_uniform(UInt32(emojiArray.count)))   // рандом выбор эмодзи
-                emojiDictionary[card.ID] = emojiArray.remove(at: randomEmoji)
+            if anotherArray.count > 0 {           //условие непустоты массива эмодзи
+                let randomEmoji = Int(arc4random_uniform(UInt32(anotherArray.count)))   // рандом выбор эмодзи
+                emojiDictionary[card.ID] = anotherArray.remove(at: randomEmoji)
             }
         }
         return emojiDictionary[card.ID] ?? "?"
@@ -73,7 +77,7 @@ class ViewController: UIViewController {
                 button.backgroundColor = .green  // с зеленым фоном
             } else { //-нет
                 button.setTitle("", for: .normal) //у кнопки ничего
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // цвет либо красный, либо прозрачный
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0) : .systemOrange  // цвет либо красный, либо прозрачный
             }
         }
         scoreLabel.text = "Score: \(game.score)"
