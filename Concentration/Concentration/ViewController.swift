@@ -40,9 +40,8 @@ class ViewController: UIViewController {
     }
     
 
-    var emojiArray = ["🐞", "🐸", "🐔", "🐄", "🐝", "🦄", "🐜", "🦉", "🐢", "🐡"]
-    var anotherArray = [String]()  // копия массива, чтобы основной не опустошался
-    var emojiDictionary = [Int:String]()
+    
+    
     
     /// метод по переносу эмодзи из массива с эмодзи в словарь для вызова по номеру
     /// - Parameter card: просто карта
@@ -56,16 +55,27 @@ class ViewController: UIViewController {
         }
         return emojiDictionary[card.ID] ?? "?"
     }
+    var emojiArray = [["🎃","🕸","😈","🧟‍♀️","🧛🏻‍♂️","😵","⚰️","🦇"],["🐣","🦆","🦅","🦄","🐌","🐙","🐬"],["😀","😍","😎","🥳","🥺","😡","🤡"],["💦","☃️","🌚","🌡","⛈","🌞","🌪"],["⚾️","🏀","⚽️","🏓","🏐","🎱","🥎"]]
+    var anotherArray = [String]()  // копия массива, чтобы основной не опустошался
+    var emojiDictionary = [Int:String]()
     
+    func randomTheme() {
+        
+    }
     
     /// переворачивание карты
     func flipCard() {
-        if anotherArray.isEmpty {
-            anotherArray = emojiArray
+        if anotherArray.isEmpty == true {
+            anotherArray = emojiArray.randomElement()!
         }
-            for index in AllButtons.indices {  // прохождение индекса по всем элементам массива AllButtons
+        for index in AllButtons.indices {  // прохождение индекса по всем элементам массива AllButtons
             let button = AllButtons[index]  // кнопке присваивается индекс из массива AllButtons
             let card = game.cards[index]  //карте присваивается индекс карты из класса ConcentrationGame
+            if card.isMatched == true {
+                button.isEnabled = false // после мэтча кнопка навсегда пропадает
+            } else {
+                button.isEnabled = true
+            }
             if card.isFacedUp {  //карта повернута -да
                 button.setTitle(emojiMethod(card: card), for: .normal)  // кнопке задаются рандом эмодзи
                 button.backgroundColor = .green  // с зеленым фоном
