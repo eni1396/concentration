@@ -14,6 +14,7 @@ struct Card {
     ///  Соответствие двух выбранных карт
     var isMatched = false
     var ID: Int = 0
+    var firstTimeSeen = true
     
     /// свойство айди для функции генерирования айди
     static var id = 0

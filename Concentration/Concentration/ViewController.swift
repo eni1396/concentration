@@ -22,30 +22,20 @@ class ViewController: UIViewController {
         game.reset()
         flipCard()
         emojiDictionary.removeAll()
-        
+        isNewGame = true
     }
     
     @IBAction func touchCard(_ sender: UIButton) {
         game.flipCount += 1
             flipCard()
-        
         /// условие для получения номера карты, который будет получен при нажатии на кнопку по первому индексу из массива AllButtons
         if let cardNumber = AllButtons.firstIndex(of: sender) {
             game.chooseCard(index: cardNumber) // выбор карты по индексу
             flipCard() // действие при повороте карты
         }
-        else {
-            print("Fail")
-        }
     }
     
 
-    
-    
-    
-    /// метод по переносу эмодзи из массива с эмодзи в словарь для вызова по номеру
-    /// - Parameter card: просто карта
-    /// - Returns: добавляет эмодзи в словарь, убирая его из массива
     func emojiMethod(card:Card) -> String {
         if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
             if anotherArray.count > 0 {           //условие непустоты массива эмодзи
@@ -55,24 +45,24 @@ class ViewController: UIViewController {
         }
         return emojiDictionary[card.ID] ?? "?"
     }
+    
+    
     var emojiArray = [["🎃","🕸","😈","🧟‍♀️","🧛🏻‍♂️","😵","⚰️","🦇"],["🐣","🦆","🦅","🦄","🐌","🐙","🐬"],["😀","😍","😎","🥳","🥺","😡","🤡"],["💦","☃️","🌚","🌡","⛈","🌞","🌪"],["⚾️","🏀","⚽️","🏓","🏐","🎱","🥎"]]
     var anotherArray = [String]()  // копия массива, чтобы основной не опустошался
     var emojiDictionary = [Int:String]()
-    
-    func randomTheme() {
-        
-    }
+    var isNewGame = true
     
     /// переворачивание карты
     func flipCard() {
-        if anotherArray.isEmpty == true {
+        if isNewGame {
+            isNewGame = false
             anotherArray = emojiArray.randomElement()!
         }
         for index in AllButtons.indices {  // прохождение индекса по всем элементам массива AllButtons
             let button = AllButtons[index]  // кнопке присваивается индекс из массива AllButtons
             let card = game.cards[index]  //карте присваивается индекс карты из класса ConcentrationGame
             if card.isMatched == true {
-                button.isEnabled = false // после мэтча кнопка навсегда пропадает
+                button.isEnabled = false
             } else {
                 button.isEnabled = true
             }

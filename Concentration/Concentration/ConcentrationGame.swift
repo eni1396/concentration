@@ -31,20 +31,27 @@ class ConcentrationGame {
                 }
                 cards[index].isFacedUp = true
                 indexOfOnlyOneCard = nil
+                
             } else {
-                for flipDown in cards.indices {
-                    cards[flipDown].isFacedUp = false
+                for index in cards.indices {
+                    cards[index].isFacedUp = false
                 }
                 cards[index].isFacedUp = true
                 indexOfOnlyOneCard = index
+                if !cards[index].firstTimeSeen {
+                    score -= 1
+                }
+                cards[index].firstTimeSeen = false
             }
         }
     }
-    
+
     func reset() {
+        cards.shuffle()
         flipCount = 0
         score = 0
         for index in cards.indices {
+            cards[index].firstTimeSeen = true
             cards[index].isFacedUp = false
             cards[index].isMatched = false
         }
