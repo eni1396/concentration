@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
     @IBAction func touchCard(_ sender: UIButton) {
         game.flipCount += 1
-            flipCard()
+        flipCard()
         /// условие для получения номера карты, который будет получен при нажатии на кнопку по первому индексу из массива AllButtons
         if let cardNumber = AllButtons.firstIndex(of: sender) {
             game.chooseCard(index: cardNumber) // выбор карты по индексу
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         }
     }
     
-
+    
     func emojiMethod(card:Card) -> String {
         if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
             if anotherArray.count > 0 {           //условие непустоты массива эмодзи

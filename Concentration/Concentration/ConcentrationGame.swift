@@ -15,23 +15,28 @@ class ConcentrationGame {
     var indexOfOnlyOneCard: Int?
     var flipCount = 0
     var score = 0 /*
-    Add a game score label to your UI. Score the game by giving 2 points for every match
-    and penalizing 1 point for every previously seen card that is involved in a mismatch.
+     Add a game score label to your UI. Score the game by giving 2 points for every match
+     and penalizing 1 point for every previously seen card that is involved in a mismatch.
      */
     
     /// выбор одной карты
     /// - Parameter index: индекс карты в массиве [Card]
     func chooseCard(index: Int) {
         if !cards[index].isMatched { //если карта по индексу не соответсвует
-            if let mathcingIndex = indexOfOnlyOneCard, mathcingIndex != index {  //если подходящий индекс - индекс только одной карты и этот индекс не равен самому себе
-                if cards[mathcingIndex].ID == cards[index].ID {  //и если айди этих индексов совпадают
-                    cards[mathcingIndex].isMatched = true
+            if let matchingIndex = indexOfOnlyOneCard, matchingIndex != index {  //если подходящий индекс - индекс только одной карты и этот индекс не равен самому себе
+                if cards[matchingIndex].ID == cards[index].ID {  //и если айди этих индексов совпадают
+                    cards[matchingIndex].isMatched = true
                     cards[index].isMatched = true
                     score += 2
+                    if !cards[matchingIndex].firstTimeSeen {
+                        score -= 1
+                    } else {
+                        cards[matchingIndex].firstTimeSeen = true
+                    }
+                    cards[matchingIndex].firstTimeSeen = false
                 }
                 cards[index].isFacedUp = true
                 indexOfOnlyOneCard = nil
-                
             } else {
                 for index in cards.indices {
                     cards[index].isFacedUp = false
@@ -45,7 +50,7 @@ class ConcentrationGame {
             }
         }
     }
-
+    
     func reset() {
         cards.shuffle()
         flipCount = 0
