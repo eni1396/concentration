@@ -37,19 +37,19 @@ class ViewController: UIViewController {
     
     
     func emojiMethod(card:Card) -> String {
-        if emojiDictionary[card.ID] == nil {   // условие для проверки заполненности словаря
+        if emojiDictionary[card] == nil {   // условие для проверки заполненности словаря
             if anotherArray.count > 0 {           //условие непустоты массива эмодзи
                 let randomEmoji = Int(arc4random_uniform(UInt32(anotherArray.count)))   // рандом выбор эмодзи
-                emojiDictionary[card.ID] = anotherArray.remove(at: randomEmoji)
+                emojiDictionary[card] = anotherArray.remove(at: randomEmoji)
             }
         }
-        return emojiDictionary[card.ID] ?? "?"
+        return emojiDictionary[card] ?? "?"
     }
     
     
-    var emojiArray = [["🎃","🕸","😈","🧟‍♀️","🧛🏻‍♂️","😵","⚰️","🦇"],["🐣","🦆","🦅","🦄","🐌","🐙","🐬"],["😀","😍","😎","🥳","🥺","😡","🤡"],["💦","☃️","🌚","🌡","⛈","🌞","🌪"],["⚾️","🏀","⚽️","🏓","🏐","🎱","🥎"]]
+    var emojiArray = [["🎃","🕸","😈","🧟‍♀️","🧛🏻‍♂️","😵","⚰️","🦇"],["🐣","🦆","🦅","🦄","🐌","🐙","🐬"],["😀","😍","😎","🥳","🥺","😡","🤡"],["💦","☃️","🌚","🌡","⛈","🌞","🌪"],["⚽️","🎱","⛸","🏆","🎲","🎯","🧩"]]
     var anotherArray = [String]()  // копия массива, чтобы основной не опустошался
-    var emojiDictionary = [Int:String]()
+    var emojiDictionary = [Card:String]()
     var isNewGame = true
     
     /// переворачивание карты

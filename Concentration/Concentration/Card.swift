@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct Card {
+struct Card: Hashable, Equatable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ID)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.ID == rhs.ID
+    }
     
     /// Статус перевернутости
     var isFacedUp = false
@@ -17,11 +25,11 @@ struct Card {
     var firstTimeSeen = true
     
     /// свойство айди для функции генерирования айди
-    static var id = 0
+    private static var id = 0
     
     /// генерация уникального айди
     /// - Returns: айди функции +1
-    static func idGenerator() -> Int {
+    private static func idGenerator() -> Int {
         id += 1
         return id
     }
